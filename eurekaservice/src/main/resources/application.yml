@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: eureka-server
+server:
+  port: 8070
+eureka:
+#
+#  instance:
+#    hostname: eureka
+#  client:
+#    registerWithEureka: false
+#    fetchRegistry: false
+#    serviceUrl:
+#      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+#
+  server:
+    waitTimeInMsWhenSyncEmpty: 5
+---
+server:
+  port: 8071
+spring:
+  config:
+    activate:
+      on-profile: eureka1
+eureka:
+  instance:
+    hostname: eureka1
+  client:
+    serviceUrl:
+      defaultZone: http://eureka2:8072/eureka/
+
+---
+server:
+  port: 8072
+spring:
+  config:
+    activate:
+      on-profile: eureka2
+eureka:
+  instance:
+    hostname: eureka2
+  client:
+    serviceUrl:
+      defaultZone: http://eureka1:8071/eureka/
